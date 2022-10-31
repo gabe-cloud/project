@@ -1,5 +1,8 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import ttk, filedialog
+from tkinter.filedialog import askopenfile
+
 
 import sqlite3
 
@@ -14,6 +17,8 @@ class Registration:
         #Creo contenedor
         frame = LabelFrame(self.wind, text= 'Registrar nuevo archivo de actas')
         frame.grid(row=0, column= 0, columnspan= 3, pady= 20)
+        SecondFrame = LabelFrame(self.wind, text= 'Filtro de busqueda')
+        SecondFrame.grid(row=1, column= 1, pady= 10, padx= 10)
 
         #File ID Input
         Label(frame, text='ID: ').grid(row=1, column= 0)
@@ -26,13 +31,23 @@ class Registration:
         self.title = Entry(frame)
         self.title.grid(row=2,column=1, pady=10)
         
-        #Title Input
+        #Descripcion Input
         Label(frame, text='Descripción: ').grid(row=3, column= 0)
         self.description = Entry(frame)
         self.description.grid(row=3,column=1, pady=10)
 
+        ttk.Button(frame, text="Buscar Archivo", command=self.open_file).grid(row=4, columnspan=2, sticky= W + E)
+
         #Button Add new file
-        ttk.Button(frame, text="Save", command= self.add_file).grid(row=4, columnspan=2, sticky= W + E)
+        ttk.Button(frame, text="Save", command= self.add_file).grid(row=5, columnspan=2, sticky= W + E)
+        
+        #Descripcion Filter
+        Label(SecondFrame, text='Número ID: ').grid(row=1, column= 0)
+        self.description = Entry(SecondFrame)
+        self.description.grid(row=1,column=1, pady=10)
+
+        #Button Search new file
+        ttk.Button(SecondFrame, text="Buscar", command= self.add_file).grid(row=2, columnspan=2, sticky= W + E)
 
         #Output Messages
         self.message = Label(text='', fg ='red')
@@ -80,7 +95,7 @@ class Registration:
 
     def add_file(self):
         if self.validation():
-            query = 'INSERT INTO file VALUES(?,?,?)'
+            query = 'INSERT INTO file VALUES(?,?,?,?)'
             parameters =(self.id.get(), self.title.get(), self.description.get())
             self.run_query(query, parameters)
             self.message['text'] = 'Archivo {} añadido exitosamente'.format(self.title.get())
@@ -152,11 +167,16 @@ class Registration:
         self.message['text'] = 'Archivo {} actualizado exitosamente'.format(id)
         self.get_files()
 
+    def open_file(self):
+        file = filedialog.askopenfile(mode='r', filetypes=[('Python Files', '*.pdf')])
+        if file:
+            content = file.read()
+            file.close()
+            print("%d characters in this file" % len(content))
+
 if __name__=='__main__':
     window = Tk()
     application = Registration(window)
-    window.geometry('600x655')
-    window.resizable(False, False)
     window.iconbitmap('C:\\Users\\gjrzr\\Desktop\\TRY\\uneg-logo-2D2635F1F5-seeklogo.com.ico')
     window.mainloop()
 
