@@ -35,10 +35,6 @@ class Registration:
         self.description = Entry(frame)
         self.description.grid(row=3, column=1, pady=10)
 
-        ttk.Button(frame, text="Buscar Archivo", command=self.open_file).grid(
-            row=6, columnspan=2, sticky=W + E
-        )
-
         # Button Select file
         Label(frame, text="Select file: ").grid(row=4, column=0)
         ttk.Button(frame, text="...", command=self.select_file).grid(
@@ -95,7 +91,7 @@ class Registration:
         file = filedialog.askopenfilename(
             initialdir="/",
             title="Select file",
-            filetypes=(("jpeg files", ".jpg"), ("all files", ".*")),
+            filetypes=(("jpeg files", ".pdf"), ("all files", ".*")),
         )
         file_move(file)
 
@@ -213,13 +209,6 @@ class Registration:
         self.edit_wind.destroy()
         self.message["text"] = "Archivo {} actualizado exitosamente".format(id)
         self.get_files()
-
-    def open_file(self):
-        file = filedialog.askopenfile(mode="r", filetypes=[("Python Files", "*.pdf")])
-        if file:
-            content = file.read()
-            file.close()
-            print("%d characters in this file" % len(content))
 
 
 if __name__ == "__main__":
