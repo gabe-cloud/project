@@ -36,7 +36,7 @@ class Registration:
         self.description.grid(row=3, column=1, pady=10)
 
         ttk.Button(frame, text="Buscar Archivo", command=self.open_file).grid(
-            row=4, columnspan=2, sticky=W + E
+            row=6, columnspan=2, sticky=W + E
         )
 
         # Button Select file
