@@ -52,11 +52,11 @@ class Registration:
 
         # Descripcion Filter
         Label(SecondFrame, text="Número ID: ").grid(row=1, column=0)
-        self.description = Entry(SecondFrame)
-        self.description.grid(row=1, column=1, pady=10)
+        self.triggerid = Entry(SecondFrame)
+        self.triggerid.grid(row=1, column=1, pady=10)
 
         # Button Search new file
-        ttk.Button(SecondFrame, text="Buscar", command=self.add_file).grid(
+        ttk.Button(SecondFrame, text="Buscar").grid(
             row=2, columnspan=2, sticky=W + E
         )
 
@@ -122,7 +122,7 @@ class Registration:
 
     def add_file(self):
         if self.validation():
-            query = "INSERT INTO file VALUES(?,?,?,?)"
+            query = "INSERT INTO file VALUES(?,?,?)"
             parameters = (self.id.get(), self.title.get(), self.description.get())
             self.run_query(query, parameters)
             self.message["text"] = "Archivo {} añadido exitosamente".format(
